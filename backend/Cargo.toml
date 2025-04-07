@@ -10,6 +10,7 @@ serde = { version = "1.0", features = ["derive"] } # For JSON serialization
 serde_json = "1.0"
 sqlx = { version = "0.6", features = ["postgres", "runtime-tokio-native-tls"] } # For database
 dotenv = "0.15" # For environment variables
-solana-client = "2.0" # Solana RPC client
-tokio-tungstenite = "0.17" # WebSocket support
+solana-client = "1.16" # Solana RPC client
+tokio-tungstenite = { version = "0.17", features = ["native-tls"] } # WebSocket support
 uuid = { version = "1", features = ["v4"] } # For unique IDs
+futures-util = "0.3" # For WebSocket stream utilities
