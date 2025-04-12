@@ -6,16 +6,19 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
+import MarketData from "./pages/MarketData";
+import TransactionLog from "./pages/TransactionLog";
+import PortfolioAnalysis from "./pages/PortfolioAnalysis";
+import WalletConnection from "./pages/WalletConnection";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { useState, useEffect } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
 import { WalletContextProvider } from "./contexts/WalletContext";
 import { initializeTestUser } from "./lib/firebaseInit";
+import { queryClient } from "./lib/queryClient";
 
 const App = () => {
-  // Create a new QueryClient instance inside the component
-  const [queryClient] = useState(() => new QueryClient());
   const [testUserInfo, setTestUserInfo] = useState<{ email: string, password: string } | null>(null);
 
   useEffect(() => {
@@ -35,8 +38,8 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <WalletContextProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <WalletContextProvider>
           <TooltipProvider>
             <Toaster />
             <Sonner />
@@ -50,6 +53,10 @@ const App = () => {
             <Router>
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/market-data" element={<MarketData />} />
+                <Route path="/transactions" element={<TransactionLog />} />
+                <Route path="/portfolio-analysis" element={<PortfolioAnalysis />} />
+                <Route path="/wallet-connection" element={<WalletConnection />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
@@ -57,8 +64,8 @@ const App = () => {
               </Routes>
             </Router>
           </TooltipProvider>
-        </QueryClientProvider>
-      </WalletContextProvider>
+        </WalletContextProvider>
+      </QueryClientProvider>
     </AuthProvider>
   );
 };

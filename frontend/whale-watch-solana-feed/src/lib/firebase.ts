@@ -20,7 +20,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 // For development, we'll use a mock auth system if we detect Firebase issues
-const useMockAuth = window.location.hostname === 'localhost';
+// Force mock auth on localhost to avoid API key issues
+const useMockAuth = true; // Always use mock auth for now to ensure it works
 
 if (useMockAuth) {
   console.log('Using mock authentication for development');

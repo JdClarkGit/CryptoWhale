@@ -86,8 +86,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       if (useMockAuth) {
         // Use mock authentication
-        const result = await mockSignIn(email, password);
-        return result;
+        try {
+          const result = await mockSignIn(email, password);
+          console.log('Mock login successful for:', email);
+          return result;
+        } catch (mockError: any) {
+          console.error('Mock login error:', mockError.message);
+          
+          // If the user doesn't exist in mock system but it's the test user or the user's email (including variations),
+          // create it automatically for convenience
+          if (mockError.message.includes('not found') && 
+              (email === 'test@example.com' || 
+               email.includes('josephdclarkjobs') || 
+               email.includes('josephdclarkjobs+1'))) {
+            console.log('User not found in mock system, creating automatically:', email);
+            try {
+              const signupResult = await mockSignUp(email, password);
+              console.log('Auto-created user in mock system:', email);
+              return signupResult;
+            } catch (createError) {
+              console.error('Error auto-creating user in mock system:', createError);
+              throw mockError; // Throw the original error if creation fails
+            }
+          } else {
+            throw mockError;
+          }
+        }
       } else {
         // Use Firebase authentication
         return await signInWithEmailAndPassword(auth, email, password);
@@ -96,10 +120,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Login error:', error);
       
       // If Firebase fails with API key error, try mock auth as fallback
-      if (error.code === 'auth/api-key-not-valid' && !useMockAuth) {
+      if (!useMockAuth && (error.code === 'auth/api-key-not-valid' || error.code === 'auth/invalid-api-key')) {
         console.log('Firebase auth failed, falling back to mock auth');
-        const result = await mockSignIn(email, password);
-        return result;
+        try {
+          const result = await mockSignIn(email, password);
+          return result;
+        } catch (mockError: any) {
+          // If the user doesn't exist in mock system but it's the test user or the user's email (including variations),
+          // create it automatically for convenience
+          if (mockError.message.includes('not found') && 
+              (email === 'test@example.com' || 
+               email.includes('josephdclarkjobs') || 
+               email.includes('josephdclarkjobs+1'))) {
+            console.log('User not found in mock system, creating automatically:', email);
+            const signupResult = await mockSignUp(email, password);
+            console.log('Auto-created user in mock system:', email);
+            return signupResult;
+          } else {
+            throw mockError;
+          }
+        }
       }
       
       throw error;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 import { SolanaWalletManager } from '../components/SolanaWalletManager';
@@ -12,14 +12,15 @@ const Dashboard = () => {
   const { currentUser, userProfile, logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
+  const [hoveredCrypto, setHoveredCrypto] = useState<string | null>(null);
   const navigate = useNavigate();
 
   // Mock data for portfolio breakdown chart
   const portfolioData = [
-    { name: 'Bitcoin', value: 45, color: '#F7931A' },
-    { name: 'Ethereum', value: 30, color: '#627EEA' },
-    { name: 'Solana', value: 15, color: '#00FFA3' },
-    { name: 'Other', value: 10, color: '#8A92B2' },
+    { name: 'Bitcoin', value: 45, color: '#F7931A', hoverColor: '#ffa726', symbol: 'BTC', amount: 0.53, dollarValue: 45000 },
+    { name: 'Ethereum', value: 30, color: '#627EEA', hoverColor: '#7986cb', symbol: 'ETH', amount: 15.7, dollarValue: 30000 },
+    { name: 'Solana', value: 15, color: '#00FFA3', hoverColor: '#4cffb4', symbol: 'SOL', amount: 114.5, dollarValue: 15000 },
+    { name: 'Other', value: 10, color: '#8A92B2', hoverColor: '#a0a8c2', symbol: 'ALT', amount: 0, dollarValue: 10000 },
   ];
 
   // Mock data for price history chart
@@ -219,10 +220,14 @@ const Dashboard = () => {
                     }>
                       Portfolio Analysis
                     </Button>
-                    <Button variant="outline" className={darkMode 
-                      ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
-                      : "border-gray-300 hover:bg-gray-200"
-                    }>
+                    <Button 
+                      variant="outline" 
+                      className={darkMode 
+                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                        : "border-gray-300 hover:bg-gray-200"
+                      }
+                      onClick={() => navigate('/market-data')}
+                    >
                       Market Data
                     </Button>
                   </div>
@@ -247,54 +252,163 @@ const Dashboard = () => {
                     </div>
                   ) : (
                     <div className="h-64 relative">
-                      {/* Simple SVG Pie Chart */}
-                      <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
-                        {portfolioData.map((item, index) => {
-                          // Calculate the pie segments
-                          const previousTotal = portfolioData
-                            .slice(0, index)
-                            .reduce((sum, entry) => sum + entry.value, 0);
-                          const total = portfolioData.reduce((sum, entry) => sum + entry.value, 0);
-                          const startAngle = (previousTotal / total) * 360;
-                          const endAngle = ((previousTotal + item.value) / total) * 360;
+                      {/* Modern 3D Pie Chart - Optimized for performance */}
+                      <svg 
+                        viewBox="0 0 100 100" 
+                        className="w-full h-full"
+                        style={{ overflow: 'visible' }}
+                      >
+                        <defs>
+                          {/* Gradients for 3D effect - Pre-rendered for performance */}
+                          {portfolioData.map((item, index) => (
+                            <React.Fragment key={`gradients-${index}`}>
+                              <linearGradient 
+                                id={`gradient-${index}`} 
+                                x1="0%" 
+                                y1="0%" 
+                                x2="100%" 
+                                y2="100%"
+                              >
+                                <stop offset="0%" stopColor={item.color} />
+                                <stop offset="100%" stopColor={item.color} stopOpacity="0.8" />
+                              </linearGradient>
+                              <linearGradient 
+                                id={`gradient-hover-${index}`} 
+                                x1="0%" 
+                                y1="0%" 
+                                x2="100%" 
+                                y2="100%"
+                              >
+                                <stop offset="0%" stopColor={item.hoverColor} />
+                                <stop offset="100%" stopColor={item.hoverColor} stopOpacity="0.8" />
+                              </linearGradient>
+                            </React.Fragment>
+                          ))}
                           
-                          // Convert angles to radians for SVG arc
-                          const startRad = (startAngle - 90) * Math.PI / 180;
-                          const endRad = (endAngle - 90) * Math.PI / 180;
+                          {/* Drop shadow for 3D effect */}
+                          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="1" stdDeviation="2" floodOpacity="0.3" />
+                          </filter>
+                        </defs>
+                        
+                        {/* Chart segments with 3D effect - Fixed positioning */}
+                        <g transform="translate(50, 50)">
+                          {portfolioData.map((item, index) => {
+                            // Calculate the pie segments
+                            const previousTotal = portfolioData
+                              .slice(0, index)
+                              .reduce((sum, entry) => sum + entry.value, 0);
+                            const total = portfolioData.reduce((sum, entry) => sum + entry.value, 0);
+                            const startAngle = (previousTotal / total) * 360;
+                            const endAngle = ((previousTotal + item.value) / total) * 360;
+                            
+                            // Convert angles to radians for SVG arc
+                            const startRad = (startAngle - 90) * Math.PI / 180;
+                            const endRad = (endAngle - 90) * Math.PI / 180;
+                            
+                            // Calculate points on the circle - Fixed dimensions
+                            const innerRadius = 15; // Fixed inner radius
+                            const outerRadius = 40; // Fixed outer radius
+                            
+                            const startOuterX = outerRadius * Math.cos(startRad);
+                            const startOuterY = outerRadius * Math.sin(startRad);
+                            const endOuterX = outerRadius * Math.cos(endRad);
+                            const endOuterY = outerRadius * Math.sin(endRad);
+                            
+                            // Create the arc path - Fixed path
+                            const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
+                            const pathData = `M ${innerRadius * Math.cos(startRad)} ${innerRadius * Math.sin(startRad)} 
+                                              L ${startOuterX} ${startOuterY} 
+                                              A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${endOuterX} ${endOuterY} 
+                                              L ${innerRadius * Math.cos(endRad)} ${innerRadius * Math.sin(endRad)}
+                                              A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${innerRadius * Math.cos(startRad)} ${innerRadius * Math.sin(startRad)}
+                                              Z`;
+                            
+                            // Calculate position for hover tooltip - Fixed position
+                            const midAngle = (startAngle + endAngle) / 2;
+                            const midRad = (midAngle - 90) * Math.PI / 180;
+                            
+                            return (
+                              <g 
+                                key={`segment-${index}`}
+                                onMouseEnter={() => setHoveredCrypto(item.name)}
+                                onMouseLeave={() => setHoveredCrypto(null)}
+                                style={{ cursor: 'pointer' }}
+                              >
+                                <path 
+                                  d={pathData} 
+                                  fill={hoveredCrypto === item.name ? `url(#gradient-hover-${index})` : `url(#gradient-${index})`}
+                                  filter="url(#shadow)"
+                                  stroke={darkMode ? "#1f2937" : "#f9fafb"} 
+                                  strokeWidth="0.5"
+                                  style={{ 
+                                    transform: hoveredCrypto === item.name ? 'scale(1.05)' : 'scale(1)',
+                                    transformOrigin: 'center',
+                                    transformBox: 'fill-box',
+                                    transition: 'transform 0.2s ease-out'
+                                  }}
+                                />
+                              </g>
+                            );
+                          })}
                           
-                          // Calculate points on the circle
-                          const x1 = 50 + 40 * Math.cos(startRad);
-                          const y1 = 50 + 40 * Math.sin(startRad);
-                          const x2 = 50 + 40 * Math.cos(endRad);
-                          const y2 = 50 + 40 * Math.sin(endRad);
-                          
-                          // Create the arc path
-                          const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
-                          const pathData = `M 50 50 L ${x1} ${y1} A 40 40 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
-                          
-                          return (
-                            <path 
-                              key={index} 
-                              d={pathData} 
-                              fill={item.color} 
-                              stroke={darkMode ? "#1f2937" : "#f9fafb"} 
-                              strokeWidth="0.5"
-                            />
-                          );
-                        })}
+                          {/* Inner circle for donut effect - Fixed position */}
+                          <circle 
+                            cx="0" 
+                            cy="0" 
+                            r="15" 
+                            fill={darkMode ? "#1f2937" : "#f9fafb"} 
+                            stroke={darkMode ? "#374151" : "#e5e7eb"} 
+                            strokeWidth="0.5"
+                          />
+                        </g>
                       </svg>
                       
-                      {/* Legend */}
-                      <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-4 mt-4">
-                        {portfolioData.map((item, index) => (
-                          <div key={index} className="flex items-center">
-                            <div 
-                              className="w-3 h-3 mr-1" 
-                              style={{ backgroundColor: item.color }}
-                            ></div>
-                            <span className={`text-xs ${regularTextClass}`}>{item.name} ({item.value}%)</span>
+                      {/* Fixed position tooltip instead of absolute positioning */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        {hoveredCrypto && (
+                          <div 
+                            className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-4 py-2 rounded-lg shadow-lg z-10"
+                            style={{ minWidth: '150px', textAlign: 'center' }}
+                          >
+                            {(() => {
+                              const crypto = portfolioData.find(c => c.name === hoveredCrypto);
+                              return (
+                                <>
+                                  <p className="font-bold">{crypto?.name} ({crypto?.symbol})</p>
+                                  <p className="text-sm">{crypto?.value}% of Portfolio</p>
+                                  <p className="text-sm">{crypto?.amount} {crypto?.symbol}</p>
+                                  <p className="text-sm">${crypto?.dollarValue.toLocaleString()}</p>
+                                </>
+                              );
+                            })()}
                           </div>
-                        ))}
+                        )}
+                      </div>
+                      
+                      {/* Fixed position legend with pre-rendered styles */}
+                      <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-4 mt-4">
+                        {portfolioData.map((item, index) => {
+                          const isHovered = hoveredCrypto === item.name;
+                          return (
+                            <div 
+                              key={`legend-${index}`} 
+                              className="flex items-center cursor-pointer"
+                              onMouseEnter={() => setHoveredCrypto(item.name)}
+                              onMouseLeave={() => setHoveredCrypto(null)}
+                            >
+                              <div 
+                                className={`w-3 h-3 mr-1 rounded-sm ${isHovered ? 'ring-1 ring-white' : ''}`}
+                                style={{ 
+                                  backgroundColor: isHovered ? item.hoverColor : item.color
+                                }}
+                              />
+                              <span className={`text-xs ${regularTextClass} ${isHovered ? 'font-bold' : ''}`}>
+                                {item.name} ({item.value}%)
+                              </span>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
