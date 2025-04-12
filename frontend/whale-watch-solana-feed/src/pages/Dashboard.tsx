@@ -104,6 +104,11 @@ const Dashboard = () => {
     : "bg-white border-gray-200";
   
   const textHighlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500";
+  
+  // Text color classes for regular text
+  const regularTextClass = darkMode ? "text-white" : "text-gray-900";
+  const labelTextClass = darkMode ? "text-gray-200" : "text-gray-700";
+  const secondaryTextClass = darkMode ? "text-gray-300" : "text-gray-600";
 
   return (
     <div className={`min-h-screen ${themeClasses} p-4 md:p-8 transition-colors duration-500`}>
@@ -123,14 +128,20 @@ const Dashboard = () => {
               onClick={toggleDarkMode}
               variant="outline" 
               size="icon"
-              className={darkMode ? "border-gray-700 hover:bg-gray-800" : "border-gray-300 hover:bg-gray-200"}
+              className={darkMode 
+                ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                : "border-gray-300 hover:bg-gray-200"
+              }
             >
               {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
             <Button 
               onClick={handleLogout}
               variant="outline" 
-              className={darkMode ? "border-gray-700 hover:bg-gray-800" : "border-gray-300 hover:bg-gray-200"}
+              className={darkMode 
+                ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                : "border-gray-300 hover:bg-gray-200"
+              }
             >
               Sign Out
             </Button>
@@ -166,17 +177,17 @@ const Dashboard = () => {
                     <div className="space-y-4">
                       <div>
                         <p className={textHighlightClass}>Email</p>
-                        <p className="font-medium">{currentUser.email}</p>
+                        <p className={`font-medium ${regularTextClass}`}>{currentUser.email}</p>
                       </div>
                       <div>
                         <p className={textHighlightClass}>User ID</p>
-                        <p className="font-medium text-sm truncate">{currentUser.uid}</p>
+                        <p className={`font-medium text-sm truncate ${regularTextClass}`}>{currentUser.uid}</p>
                       </div>
                       <div>
                         <p className={textHighlightClass}>Account Status</p>
                         <div className="flex items-center">
                           <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
-                          <p className="font-medium">Active</p>
+                          <p className={`font-medium ${regularTextClass}`}>Active</p>
                         </div>
                       </div>
                     </div>
@@ -196,13 +207,22 @@ const Dashboard = () => {
                     <Button className="bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white">
                       Connect Wallet
                     </Button>
-                    <Button variant="outline" className={darkMode ? "border-gray-700 hover:bg-gray-800" : "border-gray-300 hover:bg-gray-200"}>
+                    <Button variant="outline" className={darkMode 
+                      ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                      : "border-gray-300 hover:bg-gray-200"
+                    }>
                       View Transactions
                     </Button>
-                    <Button variant="outline" className={darkMode ? "border-gray-700 hover:bg-gray-800" : "border-gray-300 hover:bg-gray-200"}>
+                    <Button variant="outline" className={darkMode 
+                      ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                      : "border-gray-300 hover:bg-gray-200"
+                    }>
                       Portfolio Analysis
                     </Button>
-                    <Button variant="outline" className={darkMode ? "border-gray-700 hover:bg-gray-800" : "border-gray-300 hover:bg-gray-200"}>
+                    <Button variant="outline" className={darkMode 
+                      ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                      : "border-gray-300 hover:bg-gray-200"
+                    }>
                       Market Data
                     </Button>
                   </div>
@@ -272,7 +292,7 @@ const Dashboard = () => {
                               className="w-3 h-3 mr-1" 
                               style={{ backgroundColor: item.color }}
                             ></div>
-                            <span className="text-xs">{item.name} ({item.value}%)</span>
+                            <span className={`text-xs ${regularTextClass}`}>{item.name} ({item.value}%)</span>
                           </div>
                         ))}
                       </div>
@@ -407,7 +427,7 @@ const Dashboard = () => {
                       </svg>
 
                       {/* X-axis labels */}
-                      <div className="flex justify-between mt-2 text-xs text-gray-500">
+                      <div className="flex justify-between mt-2 text-xs">
                         {priceHistoryData.map((dataPoint, index) => {
                           // Only show every other label on small screens
                           if (index % 2 !== 0 && window.innerWidth < 768) return null;
@@ -417,7 +437,7 @@ const Dashboard = () => {
                           const month = date.getMonth() + 1;
                           
                           return (
-                            <div key={index}>{month}/{day}</div>
+                            <div key={index} className={secondaryTextClass}>{month}/{day}</div>
                           );
                         })}
                       </div>
@@ -470,18 +490,18 @@ const Dashboard = () => {
                       <p className={textHighlightClass + " mb-2"}>Profile Information</p>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className={darkMode ? "text-sm text-gray-400" : "text-sm text-gray-600"}>Display Name</label>
+                          <label className={`text-sm ${labelTextClass}`}>Display Name</label>
                           <input 
                             type="text" 
-                            className={`w-full ${darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-300"} border rounded p-2 mt-1`}
+                            className={`w-full ${darkMode ? "bg-gray-800 border-gray-700 text-white" : "bg-gray-100 border-gray-300 text-gray-900"} border rounded p-2 mt-1`}
                             defaultValue={userProfile?.displayName || ''}
                           />
                         </div>
                         <div>
-                          <label className={darkMode ? "text-sm text-gray-400" : "text-sm text-gray-600"}>Email</label>
+                          <label className={`text-sm ${labelTextClass}`}>Email</label>
                           <input 
                             type="email" 
-                            className={`w-full ${darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-300"} border rounded p-2 mt-1`}
+                            className={`w-full ${darkMode ? "bg-gray-800 border-gray-700 text-white" : "bg-gray-100 border-gray-300 text-gray-900"} border rounded p-2 mt-1`}
                             defaultValue={currentUser.email || ''}
                             disabled
                           />
@@ -494,7 +514,10 @@ const Dashboard = () => {
                         <Button 
                           onClick={toggleDarkMode}
                           variant={darkMode ? "default" : "outline"}
-                          className={darkMode ? "bg-gradient-to-r from-teal-500 to-cyan-600" : ""}
+                          className={darkMode 
+                            ? "bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700" 
+                            : "border-gray-300 hover:bg-gray-200"
+                          }
                         >
                           <Moon className="h-4 w-4 mr-2" />
                           Dark Mode
@@ -502,7 +525,10 @@ const Dashboard = () => {
                         <Button 
                           onClick={toggleDarkMode}
                           variant={!darkMode ? "default" : "outline"}
-                          className={!darkMode ? "bg-gradient-to-r from-teal-500 to-cyan-600" : ""}
+                          className={!darkMode 
+                            ? "bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700" 
+                            : "border-teal-500 text-teal-400 hover:bg-gray-800 hover:text-teal-300"
+                          }
                         >
                           <Sun className="h-4 w-4 mr-2" />
                           Light Mode
