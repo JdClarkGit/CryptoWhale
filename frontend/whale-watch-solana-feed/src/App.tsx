@@ -7,7 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import MarketData from "./pages/MarketData";
-import TransactionLog from "./pages/TransactionLog";
+import TransactionLogSimple from "./pages/TransactionLogSimple";
 import PortfolioAnalysis from "./pages/PortfolioAnalysis";
 import WalletConnection from "./pages/WalletConnection";
 import { Login } from "./pages/Login";
@@ -54,7 +54,8 @@ const App = () => {
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/market-data" element={<MarketData />} />
-                <Route path="/transactions" element={<TransactionLog />} />
+                <Route path="/transactions" element={<Navigate to="/transaction-log" replace />} />
+                <Route path="/transaction-log" element={<TransactionLogSimple />} />
                 <Route path="/portfolio-analysis" element={<PortfolioAnalysis />} />
                 <Route path="/wallet-connection" element={<WalletConnection />} />
                 <Route path="/login" element={<Login />} />

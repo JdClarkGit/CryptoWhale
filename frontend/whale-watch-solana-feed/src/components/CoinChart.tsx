@@ -285,7 +285,7 @@ export const CoinChart: React.FC<CoinChartProps> = ({
               className={
                 timeRange === range.days
                   ? "bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium"
-                  : "border-teal-500 text-white hover:bg-gray-700 hover:text-teal-300"
+                  : "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-teal-300 hover:border-teal-500"
               }
             >
               {range.label}

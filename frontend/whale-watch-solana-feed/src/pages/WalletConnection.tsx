@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, Check, Copy, ExternalLink, Trash2, Plus } from "lucide-react";
+import { AlertCircle, Check, Copy, ExternalLink, Plus } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // Mock wallet data
@@ -406,22 +406,16 @@ const WalletConnection = () => {
                                   size="sm"
                                   onClick={() => {
                                     let explorerUrl = "";
-                                    switch(wallet.walletType) {
-                                      case "solana":
-                                        explorerUrl = `https://explorer.solana.com/address/${wallet.walletAddress}`;
-                                        break;
-                                      case "ethereum":
-                                        explorerUrl = `https://etherscan.io/address/${wallet.walletAddress}`;
-                                        break;
-                                      case "bitcoin":
-                                        explorerUrl = `https://www.blockchain.com/explorer/addresses/btc/${wallet.walletAddress}`;
-                                        break;
-                                      default:
-                                        explorerUrl = "#";
+                                    if (wallet.walletType === "solana") {
+                                      explorerUrl = `https://explorer.solana.com/address/${wallet.walletAddress}`;
+                                    } else if (wallet.walletType === "ethereum") {
+                                      explorerUrl = `https://etherscan.io/address/${wallet.walletAddress}`;
+                                    } else if (wallet.walletType === "bitcoin") {
+                                      explorerUrl = `https://www.blockchain.com/explorer/addresses/btc/${wallet.walletAddress}`;
                                     }
                                     window.open(explorerUrl, '_blank');
                                   }}
-                                  className="mr-2 border-gray-600 text-white hover:bg-gray-600"
+                                  className="mr-2 border-gray-600 bg-white text-black hover:bg-gray-200"
                                 >
                                   <ExternalLink className="h-4 w-4 mr-2" />
                                   Explorer
@@ -430,9 +424,8 @@ const WalletConnection = () => {
                                   variant="destructive"
                                   size="sm"
                                   onClick={() => handleDisconnectWallet(wallet.id)}
-                                  className="bg-red-900 hover:bg-red-800 text-white"
+                                  className="bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"
                                 >
-                                  <Trash2 className="h-4 w-4 mr-2" />
                                   Disconnect
                                 </Button>
                               </div>
@@ -578,9 +571,8 @@ const WalletConnection = () => {
                                   variant="destructive"
                                   size="sm"
                                   onClick={() => handleDisconnectExchange(exchange.id)}
-                                  className="bg-red-900 hover:bg-red-800 text-white"
+                                  className="bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"
                                 >
-                                  <Trash2 className="h-4 w-4 mr-2" />
                                   Disconnect
                                 </Button>
                               </div>

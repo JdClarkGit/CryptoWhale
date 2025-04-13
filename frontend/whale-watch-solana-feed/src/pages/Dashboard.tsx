@@ -205,19 +205,30 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
-                    <Button className="bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white">
+                    <Button 
+                      className="bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white"
+                      onClick={() => navigate('/wallet-connection')}
+                    >
                       Connect Wallet
                     </Button>
-                    <Button variant="outline" className={darkMode 
-                      ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
-                      : "border-gray-300 hover:bg-gray-200"
-                    }>
+                    <Button 
+                      variant="outline" 
+                      className={darkMode 
+                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                        : "border-gray-300 hover:bg-gray-200"
+                      }
+                      onClick={() => navigate('/transaction-log')}
+                    >
                       View Transactions
                     </Button>
-                    <Button variant="outline" className={darkMode 
-                      ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
-                      : "border-gray-300 hover:bg-gray-200"
-                    }>
+                    <Button 
+                      variant="outline" 
+                      className={darkMode 
+                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
+                        : "border-gray-300 hover:bg-gray-200"
+                      }
+                      onClick={() => navigate('/portfolio-analysis')}
+                    >
                       Portfolio Analysis
                     </Button>
                     <Button 
