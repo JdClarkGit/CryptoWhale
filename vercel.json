@@ -1,0 +1,12 @@
+{
+  "buildCommand": "cd frontend/whale-watch-solana-feed && npm install && npm run build",
+  "outputDirectory": "frontend/whale-watch-solana-feed/dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/[^.]+", "dest": "/", "status": 200 }
+  ]
+}
