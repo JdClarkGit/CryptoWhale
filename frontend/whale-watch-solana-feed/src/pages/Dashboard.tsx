@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
-import { SolanaWalletManager } from '../components/SolanaWalletManager';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Wallet, ArrowRightLeft, BarChart3, LineChart, Settings, LogOut, PieChart, DollarSign, Briefcase, Plus } from "lucide-react";
 
 const Dashboard = () => {
   const { currentUser, userProfile, logout } = useAuth();
@@ -144,6 +143,7 @@ const Dashboard = () => {
                 : "border-gray-300 hover:bg-gray-200"
               }
             >
+              <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </Button>
           </div>
@@ -152,9 +152,14 @@ const Dashboard = () => {
         {/* Main Content */}
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className={darkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-300"}>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="wallet">Solana Wallet</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger value="overview" className="flex items-center">
+              <PieChart className="h-4 w-4 mr-2" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center">
+              <Settings className="h-4 w-4 mr-2" />
+              Settings
+            </TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
@@ -206,39 +211,43 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
                     <Button 
-                      className="bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white"
+                      className="bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white flex items-center"
                       onClick={() => navigate('/wallet-connection')}
                     >
+                      <Wallet className="h-4 w-4 mr-2" />
                       Connect Wallet
                     </Button>
                     <Button 
                       variant="outline" 
                       className={darkMode 
-                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
-                        : "border-gray-300 hover:bg-gray-200"
+                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400 flex items-center" 
+                        : "border-gray-300 hover:bg-gray-200 flex items-center"
                       }
                       onClick={() => navigate('/transaction-log')}
                     >
+                      <ArrowRightLeft className="h-4 w-4 mr-2" />
                       View Transactions
                     </Button>
                     <Button 
                       variant="outline" 
                       className={darkMode 
-                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
-                        : "border-gray-300 hover:bg-gray-200"
+                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400 flex items-center" 
+                        : "border-gray-300 hover:bg-gray-200 flex items-center"
                       }
                       onClick={() => navigate('/portfolio-analysis')}
                     >
+                      <BarChart3 className="h-4 w-4 mr-2" />
                       Portfolio Analysis
                     </Button>
                     <Button 
                       variant="outline" 
                       className={darkMode 
-                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400" 
-                        : "border-gray-300 hover:bg-gray-200"
+                        ? "border-teal-500 hover:bg-gray-800 hover:text-teal-300 text-teal-400 flex items-center" 
+                        : "border-gray-300 hover:bg-gray-200 flex items-center"
                       }
                       onClick={() => navigate('/market-data')}
                     >
+                      <LineChart className="h-4 w-4 mr-2" />
                       Market Data
                     </Button>
                   </div>
@@ -576,21 +585,6 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
-
-          {/* Solana Wallet Tab */}
-          <TabsContent value="wallet">
-            <Card className={cardClasses}>
-              <CardHeader>
-                <CardTitle className={textHighlightClass}>Solana Wallet Manager</CardTitle>
-                <CardDescription className={darkMode ? "text-gray-400" : "text-gray-600"}>
-                  Manage your Solana wallets with our Rust-powered integration
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <SolanaWalletManager />
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* Settings Tab */}
