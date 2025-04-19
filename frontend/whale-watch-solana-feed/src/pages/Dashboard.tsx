@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,7 +11,7 @@ const Dashboard = () => {
   const { currentUser, userProfile, logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
-  const [hoveredCrypto, setHoveredCrypto] = useState<string | null>(null);
+  const [hoveredCrypto, setHoveredCrypto] = useState(null);
   const navigate = useNavigate();
 
   // Mock data for portfolio breakdown chart
@@ -281,7 +281,7 @@ const Dashboard = () => {
                         <defs>
                           {/* Gradients for 3D effect - Pre-rendered for performance */}
                           {portfolioData.map((item, index) => (
-                            <React.Fragment key={`gradients-${index}`}>
+                            <g key={`gradients-${index}`}>
                               <linearGradient 
                                 id={`gradient-${index}`} 
                                 x1="0%" 
@@ -302,7 +302,7 @@ const Dashboard = () => {
                                 <stop offset="0%" stopColor={item.hoverColor} />
                                 <stop offset="100%" stopColor={item.hoverColor} stopOpacity="0.8" />
                               </linearGradient>
-                            </React.Fragment>
+                            </g>
                           ))}
                           
                           {/* Drop shadow for 3D effect */}
@@ -394,12 +394,12 @@ const Dashboard = () => {
                             {(() => {
                               const crypto = portfolioData.find(c => c.name === hoveredCrypto);
                               return (
-                                <>
+                                <div>
                                   <p className="font-bold">{crypto?.name} ({crypto?.symbol})</p>
                                   <p className="text-sm">{crypto?.value}% of Portfolio</p>
                                   <p className="text-sm">{crypto?.amount} {crypto?.symbol}</p>
                                   <p className="text-sm">${crypto?.dollarValue.toLocaleString()}</p>
-                                </>
+                                </div>
                               );
                             })()}
                           </div>

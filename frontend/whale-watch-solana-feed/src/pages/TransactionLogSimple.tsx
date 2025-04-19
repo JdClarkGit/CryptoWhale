@@ -341,10 +341,10 @@ const TransactionHistory: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [statusFilter, setStatusFilter] = useState('');
-  const [assetFilter, setAssetFilter] = useState('');
-  const [typeFilter, setTypeFilter] = useState('');
-  const [walletFilter, setWalletFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [assetFilter, setAssetFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [walletFilter, setWalletFilter] = useState('all');
   const [sortConfig, setSortConfig] = useState<{ key: keyof Transaction | ''; direction: 'asc' | 'desc' }>({
     key: 'timestamp',
     direction: 'desc'
@@ -398,12 +398,12 @@ const TransactionHistory: React.FC = () => {
     }
     
     // Filter by asset
-    if (assetFilter) {
+    if (assetFilter && assetFilter !== "all") {
       filtered = filtered.filter(tx => tx.asset === assetFilter);
     }
     
     // Filter by status
-    if (statusFilter) {
+    if (statusFilter && statusFilter !== "all") {
       filtered = filtered.filter(tx => tx.status === statusFilter);
     }
     
@@ -483,10 +483,10 @@ const TransactionHistory: React.FC = () => {
   // Reset all filters
   const resetFilters = () => {
     setSearchTerm("");
-    setStatusFilter("");
-    setAssetFilter("");
-    setTypeFilter("");
-    setWalletFilter("");
+    setStatusFilter("all");
+    setAssetFilter("all");
+    setTypeFilter("all");
+    setWalletFilter("all");
     setStartDate(null);
     setEndDate(null);
   };
@@ -618,7 +618,7 @@ const TransactionHistory: React.FC = () => {
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-700 border-gray-600">
-                  <SelectItem value="">All Statuses</SelectItem>
+                  <SelectItem value="all">All Statuses</SelectItem>
                   <SelectItem value="pending">Pending</SelectItem>
                   <SelectItem value="confirmed">Confirmed</SelectItem>
                   <SelectItem value="failed">Failed</SelectItem>
@@ -631,7 +631,7 @@ const TransactionHistory: React.FC = () => {
                   <SelectValue placeholder="Asset" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-700 border-gray-600">
-                  <SelectItem value="">All Assets</SelectItem>
+                  <SelectItem value="all">All Assets</SelectItem>
                   {uniqueAssets.map(asset => (
                     <SelectItem key={asset} value={asset}>{asset}</SelectItem>
                   ))}
@@ -652,7 +652,7 @@ const TransactionHistory: React.FC = () => {
                   <SelectItem value="brokerage_deposit">Brokerage Deposit</SelectItem>
                   <SelectItem value="brokerage_withdrawal">Brokerage Withdrawal</SelectItem>
                   <SelectItem value="wallet_funding">Wallet Funding</SelectItem>
-                </SelectContent>
+                  </SelectContent>
               </Select>
               
               {/* Wallet filter */}
