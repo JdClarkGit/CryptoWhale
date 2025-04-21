@@ -1,6 +1,6 @@
 // JavaScript wrapper for the Solana integration Rust library
-const solanaIntegration = require('./pkg/solana_integration');
-const { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } = require('@solana/web3.js');
+import solanaIntegration from './pkg/solana_integration.js';
+import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 class SolanaWalletManager {
   constructor(rpcUrl = 'https://api.devnet.solana.com') {
@@ -171,4 +171,5 @@ class SolanaWalletManager {
   }
 }
 
-module.exports = SolanaWalletManager;
+// Change module.exports to export default
+export default SolanaWalletManager;

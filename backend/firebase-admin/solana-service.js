@@ -1,5 +1,5 @@
 // Solana service using our Rust integration
-const SolanaWalletManager = require('../solana-integration/js-wrapper');
+const SolanaWalletManager = require('../solana-integration/js-wrapper-compat.js');
 const { Connection, PublicKey, LAMPORTS_PER_SOL } = require('@solana/web3.js');
 const { Token, TOKEN_PROGRAM_ID } = require('@solana/spl-token');
 
