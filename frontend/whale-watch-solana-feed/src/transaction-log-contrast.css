@@ -1,0 +1,302 @@
+/* Enhanced contrast for Transaction Log */
+
+/* Make table headers brighter and bolder */
+.transaction-history th,
+[data-ui-component="table-header"],
+[class*="TableHeader"],
+[class*="header-cell"] {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Improve text contrast in table cells */
+.transaction-history td,
+[data-ui-component="table-cell"],
+[class*="TableCell"] {
+  color: #f8fafc !important; /* Brighter white */
+  font-weight: 500 !important;
+}
+
+/* Make wallet addresses more readable */
+.truncate-address,
+[class*="address"],
+[class*="wallet"] {
+  color: #a5f3fc !important; /* Light cyan for addresses */
+  font-weight: 500 !important;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Enhance status badges */
+[class*="status"],
+[class*="badge"],
+.badge {
+  font-weight: 600 !important;
+  text-shadow: none !important;
+}
+
+/* Confirmed status */
+[class*="confirmed"],
+.confirmed {
+  background-color: #10b981 !important; /* Emerald green */
+  color: #000000 !important;
+}
+
+/* Pending status */
+[class*="pending"],
+.pending {
+  background-color: #f59e0b !important; /* Amber */
+  color: #000000 !important;
+}
+
+/* Failed status */
+[class*="failed"],
+.failed {
+  background-color: #ef4444 !important; /* Red */
+  color: #ffffff !important;
+}
+
+/* Enhanced Filter Section Styles */
+/* Filter section container */
+[class*="filters"],
+.filters,
+[id*="filters"],
+#filters {
+  background-color: rgba(17, 24, 39, 0.7) !important;
+  border: 1px solid rgba(75, 85, 99, 0.5) !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  margin-bottom: 20px !important;
+}
+
+/* Filter section title */
+[class*="filters"] h3,
+.filters h3,
+[id*="filters"] h3,
+#filters h3 {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+}
+
+/* Filter input fields with enhanced contrast */
+[class*="filters"] input,
+.filters input,
+[id*="filters"] input,
+#filters input,
+input[type="text"],
+input[type="search"],
+.input,
+[class*="input"] {
+  background-color: rgba(30, 41, 59, 0.8) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(99, 102, 241, 0.4) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+}
+
+/* Filter input placeholder text */
+[class*="filters"] input::placeholder,
+.filters input::placeholder,
+[id*="filters"] input::placeholder,
+#filters input::placeholder,
+input::placeholder {
+  color: rgba(148, 163, 184, 0.8) !important;
+}
+
+/* Filter dropdown selects */
+[class*="filters"] select,
+.filters select,
+[id*="filters"] select,
+#filters select,
+select,
+[class*="select"],
+.select,
+[role="combobox"],
+[class*="combobox"] {
+  background-color: rgba(30, 41, 59, 0.8) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(99, 102, 241, 0.4) !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+}
+
+/* Filter dropdown options */
+[class*="filters"] option,
+.filters option,
+[id*="filters"] option,
+#filters option,
+option,
+[role="option"],
+[class*="option"] {
+  background-color: rgba(30, 41, 59, 1) !important;
+  color: #ffffff !important;
+}
+
+/* Remove checkmarks from dropdown options and use highlighting instead */
+[class*="select-item"],
+.select-item,
+[role="option"],
+[class*="option-item"],
+.option-item,
+[class*="dropdown-item"],
+.dropdown-item,
+[class*="menu-item"],
+.menu-item {
+  position: relative !important;
+  padding: 8px 12px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+/* Selected option styling */
+[class*="select-item"][data-state="checked"],
+.select-item[data-state="checked"],
+[role="option"][aria-selected="true"],
+[class*="option-item"][aria-selected="true"],
+.option-item[aria-selected="true"],
+[class*="dropdown-item"][aria-selected="true"],
+.dropdown-item[aria-selected="true"],
+[class*="menu-item"][aria-selected="true"],
+.menu-item[aria-selected="true"],
+[class*="select-item"][data-highlighted],
+.select-item[data-highlighted],
+[role="option"][data-highlighted],
+[class*="option-item"][data-highlighted],
+.option-item[data-highlighted] {
+  background-color: rgba(99, 102, 241, 0.5) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Hide checkmark icons */
+[class*="select-item"] svg,
+.select-item svg,
+[role="option"] svg,
+[class*="option-item"] svg,
+.option-item svg,
+[class*="dropdown-item"] svg,
+.dropdown-item svg,
+[class*="menu-item"] svg,
+.menu-item svg,
+[class*="checkmark"],
+.checkmark,
+[class*="check-icon"],
+.check-icon {
+  display: none !important;
+}
+
+/* Filter date inputs */
+[class*="filters"] [type="date"],
+.filters [type="date"],
+[id*="filters"] [type="date"],
+#filters [type="date"],
+input[type="date"] {
+  background-color: rgba(30, 41, 59, 0.8) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Filter buttons */
+[class*="filters"] button,
+.filters button,
+[id*="filters"] button,
+#filters button {
+  background-color: rgba(99, 102, 241, 0.9) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Reset filters button */
+.reset-btn,
+[class*="reset"],
+.reset,
+button[class*="reset"],
+[aria-label*="reset"],
+[aria-label*="Reset"] {
+  background-color: rgba(100, 116, 139, 0.5) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.4) !important;
+}
+
+/* Improve contrast for dropdown options */
+option {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+/* Improve contrast in input fields */
+input[type="text"],
+input[type="search"],
+.input,
+[class*="input"] {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.4) !important;
+}
+
+/* Improve dropdown contrast */
+select,
+[class*="select"],
+.select {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  color: #ffffff !important;
+}
+
+/* Make asset names and amounts stand out */
+.asset,
+[class*="asset"],
+.amount,
+[class*="amount"] {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Improve contrast for cryptocurrency symbols */
+[class*="crypto"],
+[class*="symbol"] {
+  color: #f0abfc !important; /* Light purple for crypto symbols */
+  font-weight: 600 !important;
+}
+
+/* Enhance card titles and values */
+[class*="card-title"],
+[class*="card-value"],
+.card-title,
+.card-value {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Improve contrast for timestamps */
+[class*="timestamp"],
+.timestamp {
+  color: #d1d5db !important; /* Light gray for timestamps */
+}
+
+/* Enhance buttons */
+button,
+.button,
+[class*="button"] {
+  font-weight: 600 !important;
+}
+
+/* Transaction history title */
+.transaction-history h1,
+h1 {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 10px rgba(0, 255, 209, 0.3) !important;
+}
+
+/* Transaction history subtitle */
+.transaction-history p,
+p.subtitle {
+  color: #e2e8f0 !important;
+  font-weight: 500 !important;
+}

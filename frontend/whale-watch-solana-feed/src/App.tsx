@@ -17,6 +17,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { WalletContextProvider } from "./contexts/WalletContext";
 import { initializeTestUser } from "./lib/firebaseInit";
 import { queryClient } from "./lib/queryClient";
+import "./transaction-log-contrast.css"; // Import the custom contrast CSS
 
 const App = () => {
   const [testUserInfo, setTestUserInfo] = useState<{ email: string, password: string } | null>(null);
