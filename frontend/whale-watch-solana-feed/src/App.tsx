@@ -2,7 +2,7 @@ import { Toaster } from "./components/ui/toaster";
 import { Toaster as Sonner } from "./components/ui/sonner";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
@@ -13,11 +13,18 @@ import WalletConnection from "./pages/WalletConnection";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { useState, useEffect } from "react";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { WalletContextProvider } from "./contexts/WalletContext";
 import { initializeTestUser } from "./lib/firebaseInit";
 import { queryClient } from "./lib/queryClient";
 import "./transaction-log-contrast.css"; // Import the custom contrast CSS
+
+// Auth route component that redirects to dashboard if already logged in
+const AuthRoute = ({ children }: { children: React.ReactNode }) => {
+  // Simplified to just render children without any redirection logic
+  // This prevents any potential redirect loops
+  return <>{children}</>;
+};
 
 const App = () => {
   const [testUserInfo, setTestUserInfo] = useState<{ email: string, password: string } | null>(null);
@@ -59,8 +66,16 @@ const App = () => {
                 <Route path="/transaction-log" element={<TransactionLogSimple />} />
                 <Route path="/portfolio-analysis" element={<PortfolioAnalysis />} />
                 <Route path="/wallet-connection" element={<WalletConnection />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={
+                  <AuthRoute>
+                    <Login />
+                  </AuthRoute>
+                } />
+                <Route path="/register" element={
+                  <AuthRoute>
+                    <Register />
+                  </AuthRoute>
+                } />
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

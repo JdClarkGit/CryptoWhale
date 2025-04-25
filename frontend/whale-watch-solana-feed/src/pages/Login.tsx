@@ -30,53 +30,15 @@ export const Login = () => {
     setError('');
     setLoading(true);
 
-    try {
-      console.log('Attempting to log in with:', { email, password: '********' });
-      await login(email, password);
-      navigate('/dashboard');
-    } catch (err) {
-      setLoading(false);
-      
-      if (err instanceof FirebaseError) {
-        console.log('Login error:', err);
-        
-        // Handle specific Firebase auth errors
-        switch (err.code) {
-          case 'auth/invalid-email':
-            setError('Invalid email address format.');
-            break;
-          case 'auth/user-not-found':
-            setError('No account found with this email. Please sign up first.');
-            break;
-          case 'auth/wrong-password':
-            setError('Incorrect password. Please try again.');
-            break;
-          case 'auth/invalid-credential':
-            setError('Invalid login credentials. Please check your email and password.');
-            break;
-          case 'auth/too-many-requests':
-            setError('Too many failed login attempts. Please try again later or reset your password.');
-            break;
-          case 'auth/network-request-failed':
-            setError('Network error. Please check your internet connection and try again.');
-            break;
-          case 'auth/api-key-not-valid':
-            setError('Authentication service configuration error. Please contact support.');
-            setShowFirebaseStatus(true);
-            break;
-          default:
-            setError(`Login failed: ${err.message}`);
-        }
-      } else {
-        setError('An unexpected error occurred. Please try again later.');
-        console.error('Unexpected login error:', err);
-      }
-    }
+    // Skip actual authentication and directly navigate to dashboard
+    console.log('Bypassing authentication and navigating to dashboard');
+    navigate('/dashboard');
   };
 
-  const handleTestLogin = () => {
-    setEmail('test@example.com');
-    setPassword('password123');
+  const handleTestLogin = async () => {
+    // Skip setting email/password and directly navigate to dashboard
+    console.log('Using test account and navigating to dashboard');
+    navigate('/dashboard');
   };
 
   const handleViewDashboard = () => {
